@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>حلال فور يو | المينيو الإلكتروني</title>
+    <meta name="description" content="اطلب من مينيو حلال فور يو الإلكتروني — فراخ، ساندوتشات، مشويات، كريب ومشروبات. اطلب أونلاين واستلم فاتورتك مباشرة على واتساب.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="حلال فور يو | المينيو الإلكتروني">
+    <meta property="og:description" content="تصفح المينيو، اختار وجبتك، واطلبها في خطوات بسيطة عبر واتساب.">
+    <meta property="og:image" content="assets/logo.svg">
+    <meta name="theme-color" content="#7A1F2B">
+
+    <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Lalezar&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- HEADER — logo, restaurant name, slogan, search                -->
+    <!-- ============================================================ -->
+    <header class="site-header">
+        <div class="header-top">
+            <img class="brand-logo" src="assets/logo.svg" alt="شعار المطعم" width="56" height="56">
+            <div class="brand-text">
+                <h1 class="brand-name" id="brandName">حلال فور يو</h1>
+                <p class="brand-slogan" id="brandSlogan">تاكل وانت مطمن</p>
+            </div>
+            <button class="info-btn" id="infoBtn" type="button" aria-label="معلومات المطعم" aria-haspopup="dialog">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16.5"/><circle cx="12" cy="7.8" r="0.5" fill="currentColor" stroke="none"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="search-wrap">
+            <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="search" id="searchInput" class="search-input" placeholder="ابحث عن وجبتك..." aria-label="ابحث في المينيو">
+            <button class="search-clear" id="searchClear" type="button" aria-label="مسح البحث" hidden>&times;</button>
+        </div>
+    </header>
+
+    <!-- ============================================================ -->
+    <!-- CATEGORY NAVIGATION — horizontal scroll on mobile             -->
+    <!-- ============================================================ -->
+    <nav class="category-nav" id="categoryNav" aria-label="أقسام المينيو">
+        <!-- Populated by JS -->
+    </nav>
+
+    <!-- ============================================================ -->
+    <!-- MAIN — product grid                                           -->
+    <!-- ============================================================ -->
+    <main class="main-content">
+        <div id="productsGrid" class="products-grid" aria-live="polite">
+            <!-- Populated by JS -->
+        </div>
+
+        <div id="emptyState" class="empty-state" hidden>
+            <div class="empty-state-icon" aria-hidden="true">🔍</div>
+            <h2 class="empty-state-title">لم نجد ما تبحث عنه</h2>
+            <p class="empty-state-text">جرب البحث باسم صنف آخر.</p>
+        </div>
+    </main>
+
+    <!-- ============================================================ -->
+    <!-- FLOATING CART BAR — visible on mobile when cart has items     -->
+    <!-- ============================================================ -->
+    <button class="cart-bar" id="cartBar" type="button" hidden>
+        <span class="cart-bar-icon">
+            🛒
+            <span class="cart-bar-count" id="cartBarCount">0</span>
+        </span>
+        <span class="cart-bar-label" id="cartBarLabel">عرض السلة</span>
+        <span class="cart-bar-total" id="cartBarTotal">0 ج.م</span>
+    </button>
+
+    <!-- ============================================================ -->
+    <!-- PRODUCT DETAILS — bottom sheet                                -->
+    <!-- ============================================================ -->
+    <div class="sheet-overlay" id="productOverlay" hidden></div>
+    <section class="bottom-sheet" id="productSheet" role="dialog" aria-modal="true" aria-labelledby="productSheetName" hidden>
+        <div class="sheet-handle" aria-hidden="true"></div>
+        <button class="sheet-close" id="productSheetClose" type="button" aria-label="إغلاق">&times;</button>
+        <div class="sheet-scroll">
+            <img id="productSheetImage" class="sheet-image" src="" alt="">
+            <div class="sheet-body">
+                <div class="sheet-header">
+                    <h2 class="sheet-name" id="productSheetName"></h2>
+                    <p class="sheet-price" id="productSheetPrice"></p>
+                </div>
+                <p class="sheet-description" id="productSheetDescription"></p>
+
+                <div id="productSheetExtras" class="sheet-extras">
+                    <!-- Populated by JS -->
+                </div>
+
+                <div class="sheet-quantity">
+                    <span class="sheet-quantity-label">الكمية</span>
+                    <div class="qty-control">
+                        <button class="qty-btn" id="sheetQtyMinus" type="button" aria-label="تقليل الكمية">&minus;</button>
+                        <span class="qty-value" id="sheetQtyValue">1</span>
+                        <button class="qty-btn" id="sheetQtyPlus" type="button" aria-label="زيادة الكمية">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sheet-footer">
+            <button class="btn btn-primary btn-block" id="addToCartBtn" type="button">
+                <span>أضف إلى السلة</span>
+                <span id="addToCartPrice"></span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- CART — bottom sheet                                           -->
+    <!-- ============================================================ -->
+    <div class="sheet-overlay" id="cartOverlay" hidden></div>
+    <section class="bottom-sheet" id="cartSheet" role="dialog" aria-modal="true" aria-labelledby="cartSheetTitle" hidden>
+        <div class="sheet-handle" aria-hidden="true"></div>
+        <button class="sheet-close" id="cartSheetClose" type="button" aria-label="إغلاق">&times;</button>
+        <div class="sheet-header-row">
+            <h2 class="sheet-title" id="cartSheetTitle">سلة الطلبات</h2>
+            <button class="link-btn" id="clearCartBtn" type="button">إفراغ السلة</button>
+        </div>
+
+        <div class="sheet-scroll">
+            <div id="cartItemsList" class="cart-items-list">
+                <!-- Populated by JS -->
+            </div>
+
+            <div class="cart-empty-state" id="cartEmptyState" hidden>
+                <div class="empty-state-icon" aria-hidden="true">🛒</div>
+                <h3 class="empty-state-title">السلة لسه فاضية</h3>
+                <p class="empty-state-text">اختار وجبتك المفضلة وابدأ طلبك.</p>
+            </div>
+
+            <div class="cart-summary" id="cartSummary">
+                <div class="summary-row">
+                    <span>المجموع الفرعي</span>
+                    <span id="summarySubtotal">0 ج.م</span>
+                </div>
+                <div class="summary-row" id="summaryDeliveryRow" hidden>
+                    <span>رسوم التوصيل</span>
+                    <span id="summaryDelivery">0 ج.م</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>الإجمالي</span>
+                    <span id="summaryTotal">0 ج.م</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="sheet-footer">
+            <button class="btn btn-primary btn-block" id="goToCheckoutBtn" type="button">إتمام الطلب</button>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- CHECKOUT — bottom sheet                                       -->
+    <!-- ============================================================ -->
+    <div class="sheet-overlay" id="checkoutOverlay" hidden></div>
+    <section class="bottom-sheet" id="checkoutSheet" role="dialog" aria-modal="true" aria-labelledby="checkoutSheetTitle" hidden>
+        <div class="sheet-handle" aria-hidden="true"></div>
+        <button class="sheet-close" id="checkoutSheetClose" type="button" aria-label="إغلاق">&times;</button>
+        <div class="sheet-header-row">
+            <h2 class="sheet-title" id="checkoutSheetTitle">بيانات الطلب</h2>
+        </div>
+
+        <div class="sheet-scroll">
+            <form id="checkoutForm" class="checkout-form" novalidate>
+                <div class="field">
+                    <label for="customerName">الاسم</label>
+                    <input type="text" id="customerName" name="customerName" autocomplete="name" placeholder="اكتب اسمك بالكامل">
+                    <span class="field-error" id="errorName" hidden></span>
+                </div>
+
+                <div class="field">
+                    <label for="customerPhone">رقم الهاتف</label>
+                    <input type="tel" id="customerPhone" name="customerPhone" autocomplete="tel" placeholder="01xxxxxxxxx" inputmode="numeric">
+                    <span class="field-error" id="errorPhone" hidden></span>
+                </div>
+
+                <div class="field">
+                    <span class="field-label">نوع الطلب</span>
+                    <div class="order-type-toggle" id="orderTypeToggle">
+                        <button type="button" class="toggle-option is-active" data-order-type="pickup">استلام من المطعم</button>
+                        <button type="button" class="toggle-option" data-order-type="delivery">توصيل</button>
+                    </div>
+                    <span class="field-error" id="errorOrderType" hidden></span>
+                </div>
+
+                <div id="deliveryFields" class="delivery-fields" hidden>
+                    <div class="field">
+                        <label for="customerArea">المنطقة</label>
+                        <input type="text" id="customerArea" name="customerArea" placeholder="مثال: مدينة نصر">
+                        <span class="field-error" id="errorArea" hidden></span>
+                    </div>
+                    <div class="field">
+                        <label for="customerAddress">العنوان بالتفصيل</label>
+                        <textarea id="customerAddress" name="customerAddress" rows="2" placeholder="اسم الشارع، رقم العمارة، الدور، أقرب علامة مميزة"></textarea>
+                        <span class="field-error" id="errorAddress" hidden></span>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="orderNotes">ملاحظات (اختياري)</label>
+                    <textarea id="orderNotes" name="orderNotes" rows="2" placeholder="أي طلبات إضافية..."></textarea>
+                </div>
+            </form>
+
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>المجموع الفرعي</span>
+                    <span id="checkoutSubtotal">0 ج.م</span>
+                </div>
+                <div class="summary-row" id="checkoutDeliveryRow" hidden>
+                    <span>رسوم التوصيل</span>
+                    <span id="checkoutDelivery">0 ج.م</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>الإجمالي</span>
+                    <span id="checkoutTotal">0 ج.م</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="sheet-footer">
+            <button class="btn btn-whatsapp btn-block" id="confirmOrderBtn" type="button">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5-.1-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.5h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.5-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.5C8.4 21.5 10.2 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.6 0-3.2-.4-4.5-1.3l-.3-.2-3.2 1 1-3.1-.2-.3C4 15 3.5 13.5 3.5 12 3.5 7.3 7.3 3.5 12 3.5S20.5 7.3 20.5 12 16.7 20.2 12 20.2z"/></svg>
+            <span>تأكيد الطلب وإرسال الفاتورة عبر واتساب</span>
+        </button>
+    </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- RESTAURANT INFO — bottom sheet                                -->
+    <!-- ============================================================ -->
+    <div class="sheet-overlay" id="infoOverlay" hidden></div>
+    <section class="bottom-sheet bottom-sheet-small" id="infoSheet" role="dialog" aria-modal="true" aria-labelledby="infoSheetTitle" hidden>
+        <div class="sheet-handle" aria-hidden="true"></div>
+        <button class="sheet-close" id="infoSheetClose" type="button" aria-label="إغلاق">&times;</button>
+        <div class="sheet-body">
+            <h2 class="sheet-title" id="infoSheetTitle">عن المطعم</h2>
+            <ul class="info-list">
+                <li><strong>الاسم:</strong> <span id="infoName">حلال فور يو</span></li>
+                <li><strong>مواعيد العمل:</strong> يوميًا من 12 ظهرًا حتى 2 صباحًا</li>
+                <li><strong>الطلب عبر واتساب:</strong> <span id="infoWhatsapp">01000000000</span></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Toast notifications container -->
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+    <script src="data/menu.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
